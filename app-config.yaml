@@ -48,7 +48,7 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:
+# proxy:
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
   # '/test':
@@ -75,7 +75,7 @@ auth:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
-scaffolder:
+# scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
@@ -85,12 +85,6 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   locations:
-    # Local example template
-    # - type: file
-    #   target: ../../examples/template/template.yaml
-    #   rules:
-    #     - allow: [Template]
-
     # Organizational data
     - type: url
       target: https://github.com/thaboRach/backstage-static-config/blob/main/org-config.yaml
@@ -100,3 +94,31 @@ catalog:
     # Other data
     - type: url
       target: https://github.com/thaboRach/backstage-static-config/blob/main/config.yaml
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - url: https://127.0.0.1:6553
+          name: ark-poc-cluster
+          authProvider: 'serviceAccount'
+          # skipTLSVerify: false
+          skipMetricsLookup: true
+          serviceAccountToken: ${K8S_TOKEN}
+          caData: ${K8S_CONFIG_CA_DATA}
+          caFile: '' # local path to CA file
+          # customResources:
+          #   - group: 'argoproj.io'
+          #     apiVersion: 'v1alpha1'
+          #     plural: 'rollouts'
+        # - url: http://127.0.0.2:9999
+        #   name: aws-cluster-1
+        #   authProvider: 'aws'
+    # - type: 'gke'
+    #   projectId: 'gke-clusters'
+    #   region: 'europe-west1'
+    #   skipTLSVerify: true
+    #   skipMetricsLookup: true
+    #   exposeDashboard: true

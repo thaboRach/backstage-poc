@@ -16,8 +16,11 @@ services:
       AUTH_GITHUB_CLIENT_SECRET: ${AUTH_GITHUB_CLIENT_SECRET}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       NODE_ENV: ${NODE_ENV}
+      K8S_TOKEN: ${K8S_TOKEN}
+      K8S_CONFIG_CA_DATA: ${K8S_CONFIG_CA_DATA}
     volumes:
       - ./app-config:/etc/backstage
+      
   postgres:
     image: postgres:latest
     environment:
